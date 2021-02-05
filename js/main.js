@@ -19,19 +19,15 @@ function getRandomArbitrary(min, max, fixed) {
   throw new Error('В функцию getRandomArbitrary переданы некорректные параметры');
 }
 
-function getRandomArray(arr) {
-  const newArray =[];
-
-  for ( let i = 0; i <= getRandomIntInclusive( 1, arr.length - 1); i++) {
-
-    let item = arr[getRandomIntInclusive(0, arr.length - 1)];
-    if (!newArray.includes(item)){
-      newArray.push(item);
-    }
+function getRandomArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const random = Math.floor(Math.random() * (i + 1));
+    const temp = array[random];
+    array[random] = array[i];
+    array[i] = temp;
   }
-  return newArray;
+  return array.slice(0,getRandomIntInclusive(1, array.length-1));
 }
-
 
 const TITLE = [
   'Уютное гнездышко для вас',
@@ -58,7 +54,7 @@ const CHECKOUT = [
   '14:00',
 ];
 
-const FEACTURES = [
+const FEATURES = [
   'wifi',
   'dishwasher',
   'parking',
@@ -81,42 +77,43 @@ const PHOTOS = [
 
 const NEAR_ADS_COUNT = 10;
 
-const author = () => {
+const getAuthor = () => {
   return {
     avatar: 'img/avatars/user0'+ getRandomIntInclusive(1,8) +'.png',
   };
 };
 
-const locations = () => {
+const getLocation = () => {
   return {
     x: getRandomArbitrary(35.65000, 35.70000, 5),
     y: getRandomArbitrary(139.70000, 139.80000, 5),
   };
 };
 
-const offer = () => {
+const getOffer = (coordinates) => {
   return {
     title: TITLE[getRandomIntInclusive(0, TITLE.length - 1)],
-    address: locations(),
+    address: coordinates.x + ',' + coordinates.y,
     type: TYPE[getRandomIntInclusive(0, TYPE.length - 1)],
     rooms: getRandomIntInclusive(1,7),
     guests: getRandomIntInclusive(1,15),
     checkin: CHECKIN[getRandomIntInclusive(0, CHECKIN.length - 1)],
     checkout: CHECKOUT[getRandomIntInclusive(0, CHECKOUT.length - 1)],
-    features: getRandomArray(FEACTURES),
+    features: getRandomArray(FEATURES),
     description: DESCRIPTION[getRandomIntInclusive(0, DESCRIPTION.length - 1)],
     photos: getRandomArray(PHOTOS),
   };
 };
 
-const ad  = () => {
+
+
+const getAd = () => {
+  const location = getLocation();
   return {
-    author: author (),
-    locations: locations(),
-    offer: offer (),
+    author: getAuthor(),
+    location: location,
+    offer: getOffer(location),
   };
 };
 
-const getNearbyAds = new Array(NEAR_ADS_COUNT).fill(null).map(() => ad());
-
-getNearbyAds();
+const getNearbyAds = new Array(NEAR_ADS_COUNT).fill(null).map(() => getAd());
