@@ -117,3 +117,5 @@ const getAd = () => {
 };
 
 const getNearbyAds = new Array(NEAR_ADS_COUNT).fill(null).map(() => getAd());
+
+getNearbyAds;
