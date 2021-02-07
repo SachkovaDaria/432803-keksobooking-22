@@ -14,7 +14,7 @@ function getRandomIntInclusive(min, max) {
 
 function getRandomArbitrary(min, max, fixed) {
   if ( max > min && min >= 0){
-    return ((Math.random() * (max - min + 1)) + min).toFixed(fixed);
+    return ((Math.random() * (max - min)) + min).toFixed(fixed);
   }
   throw new Error('В функцию getRandomArbitrary переданы некорректные параметры');
 }
@@ -93,7 +93,8 @@ const getLocation = () => {
 const getOffer = (coordinates) => {
   return {
     title: TITLE[getRandomIntInclusive(0, TITLE.length - 1)],
-    address: coordinates.x + ',' + coordinates.y,
+    address: coordinates.x + ', ' + coordinates.y,
+    price: getRandomIntInclusive(1,10000),
     type: TYPE[getRandomIntInclusive(0, TYPE.length - 1)],
     rooms: getRandomIntInclusive(1,7),
     guests: getRandomIntInclusive(1,15),
@@ -105,8 +106,6 @@ const getOffer = (coordinates) => {
   };
 };
 
-
-
 const getAd = () => {
   const location = getLocation();
   return {
@@ -117,5 +116,4 @@ const getAd = () => {
 };
 
 const getNearbyAds = new Array(NEAR_ADS_COUNT).fill(null).map(() => getAd());
-
-getNearbyAds;
+console.log(getNearbyAds);
