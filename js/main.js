@@ -1,7 +1,7 @@
-import {createAbs} from './utils.js';
-import {createCardElements, mapInsert} from './card.js';
+import {createAds} from './utils.js';
+import {createCardElements, mapElement} from './card.js';
 
-const ads = createAbs();
-
+const ads = createAds();
 const cardElements = createCardElements(ads);
-mapInsert.appendChild(cardElements[0]);
+
+mapElement.appendChild(cardElements[0]);

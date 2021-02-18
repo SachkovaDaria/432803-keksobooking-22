@@ -71,10 +71,8 @@ const getAd = () => {
   };
 };
 
-
-const createAbs = () => {
+const createAds = () => {
   return new Array(NEAR_ADS_COUNT).fill(null).map(() => getAd());
 }
 
-
-export {createAbs};
+export {createAds};
