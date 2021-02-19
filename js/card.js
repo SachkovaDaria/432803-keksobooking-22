@@ -48,11 +48,11 @@ const createCardElements = (ads) => {
     }
 
     //кол-во гостей и комнат в объявлении
-    const adElementСapacity = adElement.querySelector('.popup__text--capacity');
-    if (!ad.offer.rooms & !ad.offer.guests) {
-      adElementСapacity.remove();
+    const adElementCapacity = adElement.querySelector('.popup__text--capacity');
+    if (!ad.offer.rooms && !ad.offer.guests) {
+      adElementCapacity.remove();
     } else {
-      adElementСapacity.textContent = `${ad.offer.rooms} комнаты для ${ad.offer.guests} гостей`;
+      adElementCapacity.textContent = `${ad.offer.rooms} комнаты для ${ad.offer.guests} гостей`;
     }
 
     //время в объявлении
@@ -67,18 +67,17 @@ const createCardElements = (ads) => {
     const adElementFeatures = adElement.querySelector('.popup__features');
     const adFeatureItems = adElement.querySelectorAll('.popup__feature');
 
-
     for (const item of adFeatureItems) {
       item.parentNode.removeChild(item);
     }
 
     ad.offer.features.forEach((feature)=>{
-      if (!ad.offer.features) {
+      if (ad.offer.features.length === 0) {
         adElementFeatures.remove();
       } else {
         const li = document.createElement('li');
         li.classList.add('popup__feature');
-        li.classList.add('popup__feature--'+ feature);
+        li.classList.add(`popup__feature--${feature}`);
         adElementFeatures.appendChild(li);
       }
     });
@@ -92,17 +91,17 @@ const createCardElements = (ads) => {
       adElementDescription.textContent = ad.offer.description;
     }
 
-    // фото в объявление
-    const adElementImges = adElement.querySelector('.popup__photos');
-    const img = adElement.querySelectorAll('.popup__photo');
+    // фото в объявлении
+    const adElementImages = adElement.querySelector('.popup__photos');
+    const adElementImg = adElement.querySelectorAll('.popup__photo');
 
-    for (const item of img) {
+    for (const item of adElementImg) {
       item.parentNode.removeChild(item);
     }
 
     ad.offer.photos.forEach((photo)=>{
-      if (!ad.offer.photos) {
-        adElementImges.remove();
+      if (ad.offer.photos === 0) {
+        adElementImages.remove();
       } else{
         const newImg = document.createElement('img');
         newImg.classList.add('popup__photo');
@@ -110,7 +109,7 @@ const createCardElements = (ads) => {
         newImg.alt= ('Фотография жилья');
         newImg.height = 40;
         newImg.width = 45;
-        adElementImges.appendChild(newImg);
+        adElementImages.appendChild(newImg);
       }
     });
 
