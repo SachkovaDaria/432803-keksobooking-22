@@ -57,7 +57,7 @@ const createCardElements = (ads) => {
 
     //время в объявлении
     const adTimeElement = adElement.querySelector('.popup__text--time');
-    if (!ad.offer.checkin & !ad.offer.checkout) {
+    if (!ad.offer.checkin && !ad.offer.checkout) {
       adTimeElement.remove();
     } else {
       adTimeElement.textContent = `Заезд после ${ad.offer.checkin}, выезд до ${ad.offer.checkout}`;
@@ -67,13 +67,12 @@ const createCardElements = (ads) => {
     const adFeaturesElement = adElement.querySelector('.popup__features');
     const adFeatureItems = adElement.querySelectorAll('.popup__feature');
 
-    adFeatureItems.forEach( (featureElement) => {
-      featureElement.remove();
-    });
-
     if (ad.offer.features.length === 0) {
       adFeaturesElement.remove();
     } else {
+      adFeatureItems.forEach((featureElement) => {
+        featureElement.remove();
+      });
       ad.offer.features.forEach((feature)=>{
         const li = document.createElement('li');
         li.classList.add('popup__feature');
@@ -96,14 +95,13 @@ const createCardElements = (ads) => {
     const adImagesElement = adElement.querySelector('.popup__photos');
     const adImgElement = adElement.querySelectorAll('.popup__photo');
 
-    adImgElement.forEach((ImgElement) => {
-      ImgElement.remove();
-    });
-
     if (ad.offer.photos === 0) {
       adImagesElement.remove();
-    } else{
-      ad.offer.photos.forEach( (photo) => {
+    } else {
+      adImgElement.forEach((ImgElement) => {
+        ImgElement.remove();
+      });
+      ad.offer.photos.forEach((photo) => {
         const newImg = document.createElement('img');
         newImg.classList.add('popup__photo');
         newImg.src = photo;
