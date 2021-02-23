@@ -1,10 +1,10 @@
 /* global L:readonly */
 import {createAds} from './utils.js';
-import {createCardElements, createCardElement, mapElement} from './card.js';
+import {createCardElement} from './card.js';
 import {map, mapTileElement, markerIcon, mapMarkerMainElelment} from './map.js';
 
 const ads = createAds();
-const cardElements = createCardElements(ads);
+// const cardElements = createCardElements(ads);
 
 mapTileElement.addTo(map);
 mapMarkerMainElelment.addTo(map);
