@@ -7,7 +7,7 @@ const filterElement = document.querySelector('.map__filters');
 const filterElements = filterElement.querySelectorAll('.map__filter');
 
 // неактивное состояние карты
-const getInactiveMap = () => {
+const disableMap = () => {
   formElement.classList.add('ad-form--disabled');
   fieldsetElements.forEach((fieldset)=> {
     fieldset.disabled = true;
@@ -104,4 +104,4 @@ const addMarkersToMap = (ads) => {
   });
 }
 
-export {getInactiveMap, initMap, addMarkersToMap};
+export {disableMap, initMap, addMarkersToMap};
