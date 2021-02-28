@@ -31,7 +31,7 @@ function getRandomArray(array) {
   return array.slice(0,getRandomIntInclusive(1, array.length-1));
 }
 
-const NEAR_ADS_COUNT = 10;
+const NEAR_ADS_COUNT = 8;
 
 const getAuthor = () => {
   return {

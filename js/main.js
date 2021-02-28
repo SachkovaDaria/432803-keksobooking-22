@@ -1,9 +1,11 @@
 import {createAds} from './utils.js';
-import {createCardElements, mapElement} from './card.js';
+// import {createCardElement} from './card.js';
+import {getInactiveMap, initMap, addMarkersToMap} from './map.js';
 import {сustomizeForm} from './form.js';
 
 const ads = createAds();
-const cardElements = createCardElements(ads);
 
-mapElement.appendChild(cardElements[0]);
+getInactiveMap();
+initMap();
+addMarkersToMap(ads);
 сustomizeForm();
