@@ -130,4 +130,4 @@ const createCardElements = (ads) => {
   return cardElements;
 };
 
-export {createCardElements, mapElement, createCardElement};
+export {createCardElements , createCardElement};

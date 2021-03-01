@@ -87,8 +87,10 @@ const markerIcon = L.icon({
 //добавляет обычные метки на карту
 const addMarkersToMap = (ads) => {
   ads.forEach((ad) => {
-    const lat = ad.location.x;
-    const lng = ad.location.y;
+
+    const lat = ad.location.lat;
+    const lng = ad.location.lng;
+
     const marker = L.marker({
       lat,
       lng,

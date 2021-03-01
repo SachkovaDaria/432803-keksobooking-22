@@ -1,8 +1,8 @@
-const customizeForm = () => {
-  const form = document.querySelector('.ad-form');
-  const formPriceElement = form.querySelector('#price');
-  const formTypeElement = form.querySelector('#type');
+const form = document.querySelector('.ad-form');
+const formPriceElement = form.querySelector('#price');
+const formTypeElement = form.querySelector('#type');
 
+const validateForm = () => {
 
   const adPlaceholderText = {
     flat: 1000,
@@ -32,4 +32,18 @@ const customizeForm = () => {
   });
 }
 
-export {customizeForm};
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  const formData = new FormData(evt.target);
+
+  fetch(
+    'https://22.javascript.pages.academy/keksobooking',
+    {
+      method: 'POST',
+      body: formData,
+    },
+  );
+});
+
+export {validateForm};
