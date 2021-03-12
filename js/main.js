@@ -1,5 +1,5 @@
 import {disableMap, initMap, addMarkersToMap} from './map.js';
-import {validateForm} from './form.js';
+import {validateForm ,setUserFormSubmit} from './form.js';
 import {createCardElements} from './card.js';
 import {addAdstoMap} from './api.js';
 
@@ -8,3 +8,4 @@ initMap();
 addAdstoMap(createCardElements,addMarkersToMap);
 validateForm();
 
+setUserFormSubmit();

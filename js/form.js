@@ -1,7 +1,8 @@
 const form = document.querySelector('.ad-form');
 const formPriceElement = form.querySelector('#price');
 const formTypeElement = form.querySelector('#type');
-
+const formCleanButton = form.querySelector('.ad-form__reset');
+const mainElement = document.querySelector('main');
 const validateForm = () => {
 
   const adPlaceholderText = {
@@ -32,18 +33,77 @@ const validateForm = () => {
   });
 }
 
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
+//показывает сообщение при успешной отправке - только один раз
+const showSuccessMessage = () => {
+  const templateFragment = document.querySelector('#success').content;
+  const message = templateFragment.cloneNode(true);
+  mainElement.appendChild(message);
 
-  const formData = new FormData(evt.target);
+  const fragment = document.querySelector('.success');
+  fragment.classList.remove('hidden');
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === ('Escape' || 'Esc')) {
+      evt.preventDefault();
+      fragment.classList.add('hidden');
+    }
+  });
+  window.addEventListener('click', () => {
+    fragment.classList.add('hidden');
+  });
+};
 
-  fetch(
-    'https://22.javascript.pages.academy/keksobooking',
-    {
-      method: 'POST',
-      body: formData,
-    },
-  );
+const showErrorMessage = () => {
+  const templateFragment = document.querySelector('#error').content;
+  const message = templateFragment.cloneNode(true);
+  mainElement.appendChild(message);
+
+  const fragment = document.querySelector('.error');
+  const messageButton =fragment.querySelector('.error__button');
+  fragment.classList.remove('hidden');
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === ('Escape' || 'Esc')) {
+      evt.preventDefault();
+      fragment.classList.add('hidden');
+    }
+  });
+  messageButton.addEventListener('click', () => {
+    fragment.classList.add('hidden');
+  });
+  window.addEventListener('click', () => {
+    fragment.classList.add('hidden');
+  });
+};
+
+//отчищает форму по "очистить" - координаты?
+formCleanButton.addEventListener('click',()=>{
+  form.reset()
 });
 
-export {validateForm};
+const setUserFormSubmit = () => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+
+    fetch ('https://22.javascript.pages.academy/keksobooking',
+      {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      },
+    )
+      .then((response) => {
+        if (response.ok) {
+          form.reset()
+          showSuccessMessage();
+        }
+      })
+      .catch(() => {
+        showErrorMessage();
+      });
+  });
+};
+
+export {validateForm, setUserFormSubmit};
