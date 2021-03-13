@@ -1,5 +1,6 @@
 /* global L:readonly */
 import {createCardElement} from './card.js';
+import {setAdressOnMap} from './form.js';
 
 const formElement = document.querySelector('.ad-form');
 const fieldsetElements = formElement.querySelectorAll('fieldset');
@@ -63,19 +64,13 @@ const initMap = () => {
   );
 
   mapMarkerMain.addTo(map);
-
-  const address = document.querySelector('#address');
-  address.readOnly = true;
-  const setAdresOnMap = (addressX,addressY) => {
-    address.value =`${addressX}, ${addressY}`;
-  }
   const x = mapMarkerMain.getLatLng().lat.toFixed(5);
   const y = mapMarkerMain.getLatLng().lng.toFixed(5);
-  setAdresOnMap(x,y);
+  setAdressOnMap(x,y);
   mapMarkerMain.addEventListener('moveend', (evt) => {
     const addressX = evt.target.getLatLng().lat.toFixed(5);
     const addressY = evt.target.getLatLng().lng.toFixed(5);
-    setAdresOnMap (addressX,addressY)
+    setAdressOnMap(addressX,addressY)
   });
 }
 //обычная метка

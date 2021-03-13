@@ -1,3 +1,4 @@
+import {showSuccessMessageForm, showErrorMessageForm, setAdressOnMap} from './form.js';
 const addAdstoMap = (listElements,addMarkers) => {
   const SIMILAR_AD_COUNT = 10;
 
@@ -30,4 +31,29 @@ const showErrorMessage = (message) => {
   }, ERROR_MESSAGE_SHOW_TIME);
 }
 
-export {addAdstoMap};
+const form = document.querySelector('.ad-form');
+
+const setUserFormSubmit = () => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+
+    fetch ('https://22.javascript.pages.academy/keksobooking',{
+      method: 'POST',
+      body: formData,
+    },
+    )
+      .then((response) => {
+        if (response.ok) {
+          form.reset();
+          setAdressOnMap('35.68940','139.69200');
+          showSuccessMessageForm();
+        }
+      })
+      .catch(() => {
+        showErrorMessageForm();
+      });
+  });
+};
+
+export {addAdstoMap, setUserFormSubmit};

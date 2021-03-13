@@ -1,3 +1,4 @@
+
 const form = document.querySelector('.ad-form');
 const formPriceElement = form.querySelector('#price');
 const formTypeElement = form.querySelector('#type');
@@ -33,79 +34,77 @@ const validateForm = () => {
     const timeOut = evt.target.value;
     formTimeIn.value = timeOut;
   });
+
+  const formRoomElement = form.querySelector('#room_number');
+  const formCapacityElement = form.querySelector('#capacity');
+
+  formCapacityElement[1].disabled;
+  console.log(formCapacityElement[1].value);
+  formRoomElement.addEventListener('change', (evt) => {
+    const rooms = evt.target.value;
+    formCapacityElement.value;
+
+    // formCapacityElement.value = rooms;
+    // formCapacityElement.evt.target.value[1].disabled;
+  });
 }
 
-//показывает сообщение при успешной отправке - только один раз
-const showSuccessMessage = () => {
-  const templateFragment = document.querySelector('#success').content;
-  const message = templateFragment.cloneNode(true);
-  mainElement.appendChild(message);
 
-  const fragment = document.querySelector('.success');
-  fragment.classList.remove('hidden');
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === ('Escape' || 'Esc')) {
+const showSuccessMessageForm = () => {
+  const templateFragment = document.querySelector('#success').content.querySelector('.success')
+  const messageElementSuccess = templateFragment.cloneNode(true);
+  mainElement.appendChild(messageElementSuccess);
+
+  const onEscKeydown = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
-      fragment.classList.add('hidden');
+      messageElementSuccess.remove();
     }
-  });
-  window.addEventListener('click', () => {
-    fragment.classList.add('hidden');
+  }
+  document.addEventListener('keydown',onEscKeydown);
+  document.addEventListener('click', () => {
+    messageElementSuccess.remove();
+    document.removeEventListener('keydown',onEscKeydown);
   });
 };
 
-const showErrorMessage = () => {
-  const templateFragment = document.querySelector('#error').content;
-  const message = templateFragment.cloneNode(true);
-  mainElement.appendChild(message);
+const showErrorMessageForm = () => {
+  const templateFragment = document.querySelector('#error').content.querySelector('.error');
+  const messageElementError = templateFragment.cloneNode(true);
+  const messageButton = messageElementError.querySelector('.error__button');
 
-  const fragment = document.querySelector('.error');
-  const messageButton =fragment.querySelector('.error__button');
-  fragment.classList.remove('hidden');
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === ('Escape' || 'Esc')) {
+  mainElement.appendChild(messageElementError);
+
+  const onEscKeydown = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
-      fragment.classList.add('hidden');
+      messageElementError.remove();
     }
-  });
+  }
+  document.addEventListener('keydown',onEscKeydown);
+
+
   messageButton.addEventListener('click', () => {
-    fragment.classList.add('hidden');
+    messageElementError.remove();
+    document.removeEventListener('keydown',onEscKeydown);
   });
-  window.addEventListener('click', () => {
-    fragment.classList.add('hidden');
+  document.addEventListener('click', () => {
+    messageElementError.remove();
+    document.removeEventListener('keydown',onEscKeydown);
   });
 };
 
-//отчищает форму по "очистить" - координаты?
+const address = document.querySelector('#address');
+address.readOnly = true;
+
+const setAdressOnMap = (addressX,addressY) => {
+  address.value =`${addressX}, ${addressY}`;
+}
+
 formCleanButton.addEventListener('click',()=>{
-  form.reset()
+  form.reset();
+  setAdressOnMap('35.68940','139.69200');
 });
 
-const setUserFormSubmit = () => {
-  form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const formData = new FormData(evt.target);
 
-    fetch ('https://22.javascript.pages.academy/keksobooking',
-      {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        body: formData,
-      },
-    )
-      .then((response) => {
-        if (response.ok) {
-          form.reset()
-          showSuccessMessage();
-        }
-      })
-      .catch(() => {
-        showErrorMessage();
-      });
-  });
-};
-
-export {validateForm, setUserFormSubmit};
+export {validateForm, setAdressOnMap, showSuccessMessageForm, showErrorMessageForm};
