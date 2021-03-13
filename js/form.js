@@ -17,6 +17,8 @@ const validateForm = () => {
 
     formPriceElement.placeholder = value;
     formPriceElement.min = value;
+    formPriceElement.max = '1 000 000';
+    formPriceElement.type= 'number';
   });
 
   const formTimeIn = form.querySelector('#timein');
