@@ -34,19 +34,6 @@ const validateForm = () => {
     const timeOut = evt.target.value;
     formTimeIn.value = timeOut;
   });
-
-  const formRoomElement = form.querySelector('#room_number');
-  const formCapacityElement = form.querySelector('#capacity');
-
-  formCapacityElement[1].disabled;
-  console.log(formCapacityElement[1].value);
-  formRoomElement.addEventListener('change', (evt) => {
-    const rooms = evt.target.value;
-    formCapacityElement.value;
-
-    // formCapacityElement.value = rooms;
-    // formCapacityElement.evt.target.value[1].disabled;
-  });
 }
 
 
