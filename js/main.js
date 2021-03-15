@@ -5,7 +5,7 @@ import {addAdstoMap, setUserFormSubmit} from './api.js';
 
 disableMap();
 initMap();
-addAdstoMap(createCardElements,addMarkersToMap);
+addAdstoMap(createCardElements, addMarkersToMap);
 validateForm();
 
 setUserFormSubmit();

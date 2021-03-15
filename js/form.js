@@ -1,4 +1,3 @@
-
 const form = document.querySelector('.ad-form');
 const formPriceElement = form.querySelector('#price');
 const formTypeElement = form.querySelector('#type');
@@ -36,6 +35,43 @@ const validateForm = () => {
   });
 }
 
+const formRoomElement = form.querySelector('#room_number');
+const formCapacityElement = form.querySelector('#capacity');
+
+formRoomElement.addEventListener('change', (evt) => {
+  const rooms = evt.target.value;
+
+  switch (rooms) {
+    case '2':
+      formCapacityElement[0].disabled = true;
+      formCapacityElement[1].disabled = false;
+      formCapacityElement[2].disabled = false;
+      formCapacityElement[3].disabled = true;
+      break;
+    case '3':
+      formCapacityElement[0].disabled = false;
+      formCapacityElement[1].disabled = false;
+      formCapacityElement[2].disabled = false;
+      formCapacityElement[3].disabled = true;
+      break;
+    case '100':
+      formCapacityElement[0].disabled = true;
+      formCapacityElement[1].disabled = true;
+      formCapacityElement[2].disabled = true;
+      formCapacityElement[3].disabled = false;
+
+      formCapacityElement[3].selected = true;
+      break;
+    case '1':
+      formCapacityElement[0].disabled = true;
+      formCapacityElement[1].disabled = true;
+      formCapacityElement[2].disabled = false;
+      formCapacityElement[3].disabled = true;
+
+      formCapacityElement[2].selected = true;
+      break;
+  }
+});
 
 const showSuccessMessageForm = () => {
   const templateFragment = document.querySelector('#success').content.querySelector('.success')
@@ -49,7 +85,7 @@ const showSuccessMessageForm = () => {
     }
   }
   document.addEventListener('keydown',onEscKeydown);
-  document.addEventListener('click', () => {
+  messageElementSuccess.addEventListener('click', () => {
     messageElementSuccess.remove();
     document.removeEventListener('keydown',onEscKeydown);
   });
@@ -75,7 +111,7 @@ const showErrorMessageForm = () => {
     messageElementError.remove();
     document.removeEventListener('keydown',onEscKeydown);
   });
-  document.addEventListener('click', () => {
+  messageElementError.addEventListener('click', () => {
     messageElementError.remove();
     document.removeEventListener('keydown',onEscKeydown);
   });
