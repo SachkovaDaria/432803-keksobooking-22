@@ -1,4 +1,4 @@
-const mapElement = document.querySelector('.map__canvas');
+//const mapElement = document.querySelector('.map__canvas');
 
 const adTypeText = {
   flat: 'Квартира',
@@ -130,4 +130,4 @@ const createCardElements = (ads) => {
   return cardElements;
 };
 
-export {createCardElements, mapElement, createCardElement};
+export {createCardElements , createCardElement};

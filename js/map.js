@@ -1,5 +1,6 @@
 /* global L:readonly */
 import {createCardElement} from './card.js';
+import {setAdressOnMap} from './form.js';
 
 const formElement = document.querySelector('.ad-form');
 const fieldsetElements = formElement.querySelectorAll('fieldset');
@@ -7,7 +8,7 @@ const filterElement = document.querySelector('.map__filters');
 const filterElements = filterElement.querySelectorAll('.map__filter');
 
 // неактивное состояние карты
-const getInactiveMap = () => {
+const disableMap = () => {
   formElement.classList.add('ad-form--disabled');
   fieldsetElements.forEach((fieldset)=> {
     fieldset.disabled = true;
@@ -63,19 +64,13 @@ const initMap = () => {
   );
 
   mapMarkerMain.addTo(map);
-
-  const address = document.querySelector('#address');
-  address.readOnly = true;
-  const setAdresOnMap = (addressX,addressY) => {
-    address.value =`${addressX}, ${addressY}`;
-  }
   const x = mapMarkerMain.getLatLng().lat.toFixed(5);
   const y = mapMarkerMain.getLatLng().lng.toFixed(5);
-  setAdresOnMap(x,y);
+  setAdressOnMap(x,y);
   mapMarkerMain.addEventListener('moveend', (evt) => {
     const addressX = evt.target.getLatLng().lat.toFixed(5);
     const addressY = evt.target.getLatLng().lng.toFixed(5);
-    setAdresOnMap (addressX,addressY)
+    setAdressOnMap(addressX,addressY)
   });
 }
 //обычная метка
@@ -87,8 +82,10 @@ const markerIcon = L.icon({
 //добавляет обычные метки на карту
 const addMarkersToMap = (ads) => {
   ads.forEach((ad) => {
-    const lat = ad.location.x;
-    const lng = ad.location.y;
+
+    const lat = ad.location.lat;
+    const lng = ad.location.lng;
+
     const marker = L.marker({
       lat,
       lng,
@@ -104,4 +101,4 @@ const addMarkersToMap = (ads) => {
   });
 }
 
-export {getInactiveMap, initMap, addMarkersToMap};
+export {disableMap, initMap, addMarkersToMap};
