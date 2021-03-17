@@ -8,7 +8,6 @@ const adTypeText = {
 };
 
 //получаю одно объявление
-
 const createCardElement = (ad) => {
   const cardPopupTemplate = document.querySelector('#card').content.querySelector('.popup');
   const adElement = cardPopupTemplate.cloneNode(true);
@@ -120,14 +119,6 @@ const createCardElement = (ad) => {
   return adElement;
 };
 
-const createCardElements = (ads) => {
 
-  const cardElements = [];
-  ads.forEach((ad) => {
-    createCardElement;
-    cardElements.push(ad);
-  });
-  return cardElements;
-};
 
-export {createCardElements , createCardElement};
+export {createCardElement};

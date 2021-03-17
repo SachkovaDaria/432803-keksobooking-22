@@ -1,11 +1,30 @@
 import {disableMap, initMap, addMarkersToMap} from './map.js';
 import {validateForm} from './form.js';
-import {createCardElements} from './card.js';
-import {addAdstoMap, setUserFormSubmit} from './api.js';
+import {showErrorMessage} from './utils.js';
+import {getAds} from './api.js';
+
+const ADS_RENDER_COUNT = 10;
+
+let ads =[];
+
+const onSuccessAdsLoad = (adsFromAPI) => {
+  ads = adsFromAPI;
+  addMarkersToMap(ads.slice(0, ADS_RENDER_COUNT));
+};
+
+const onErrorAdsLoad = (error) => {
+  showErrorMessage(error.message);
+};
+
 
 disableMap();
+
 initMap();
-addAdstoMap(createCardElements, addMarkersToMap);
+
+getAds(onSuccessAdsLoad, onErrorAdsLoad)
+
 validateForm();
 
-setUserFormSubmit();
+
+
+

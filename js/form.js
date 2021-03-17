@@ -1,8 +1,19 @@
+import {createAd} from './api.js';
+import {showErrorMessage, showSuccessMessage} from './utils.js';
+
+
 const form = document.querySelector('.ad-form');
 const formPriceElement = form.querySelector('#price');
 const formTypeElement = form.querySelector('#type');
 const formCleanButton = form.querySelector('.ad-form__reset');
-const mainElement = document.querySelector('main');
+
+const address = document.querySelector('#address');
+address.readOnly = true;
+
+const setAdressOnMap = (addressX,addressY) => {
+  address.value =`${addressX}, ${addressY}`;
+}
+
 const validateForm = () => {
 
   const adPlaceholderText = {
@@ -73,56 +84,22 @@ formRoomElement.addEventListener('change', (evt) => {
   }
 });
 
-const showSuccessMessageForm = () => {
-  const templateFragment = document.querySelector('#success').content.querySelector('.success')
-  const messageElementSuccess = templateFragment.cloneNode(true);
-  mainElement.appendChild(messageElementSuccess);
-
-  const onEscKeydown = (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-      evt.preventDefault();
-      messageElementSuccess.remove();
-    }
-  }
-  document.addEventListener('keydown',onEscKeydown);
-  messageElementSuccess.addEventListener('click', () => {
-    messageElementSuccess.remove();
-    document.removeEventListener('keydown',onEscKeydown);
-  });
+const onSuccessSubmitForm = () => {
+  showSuccessMessage();
+  form.reset();
+  setAdressOnMap('35.68940','139.69200');
 };
 
-const showErrorMessageForm = () => {
-  const templateFragment = document.querySelector('#error').content.querySelector('.error');
-  const messageElementError = templateFragment.cloneNode(true);
-  const messageButton = messageElementError.querySelector('.error__button');
-
-  mainElement.appendChild(messageElementError);
-
-  const onEscKeydown = (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-      evt.preventDefault();
-      messageElementError.remove();
-    }
-  }
-  document.addEventListener('keydown',onEscKeydown);
-
+const onErrorSubmitForm = () => {
+  showErrorMessage();
+  const errorMessage = document.querySelector('.error');
+  const messageButton = document.querySelector('.error__button');
 
   messageButton.addEventListener('click', () => {
-    messageElementError.remove();
-    document.removeEventListener('keydown',onEscKeydown);
+    errorMessage.remove();
   });
-  messageElementError.addEventListener('click', () => {
-    messageElementError.remove();
-    document.removeEventListener('keydown',onEscKeydown);
-  });
+
 };
-
-const address = document.querySelector('#address');
-address.readOnly = true;
-
-const setAdressOnMap = (addressX,addressY) => {
-  address.value =`${addressX}, ${addressY}`;
-}
 
 formCleanButton.addEventListener('click',()=>{
   form.reset();
@@ -130,4 +107,15 @@ formCleanButton.addEventListener('click',()=>{
 });
 
 
-export {validateForm, setAdressOnMap, showSuccessMessageForm, showErrorMessageForm};
+const setFormSubmit = () => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const formData = new FormData(evt.target);
+    createAd(formData, onSuccessSubmitForm, onErrorSubmitForm);
+  });
+};
+
+setFormSubmit();
+
+export {validateForm, setAdressOnMap};
