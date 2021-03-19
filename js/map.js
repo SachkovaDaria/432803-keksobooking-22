@@ -1,4 +1,5 @@
 /* global L:readonly */
+import {DEFAULT_ADRESS} from './utils.js';
 import {createCardElement} from './card.js';
 import {setAdressOnMap} from './form.js';
 
@@ -18,6 +19,25 @@ const disableMap = () => {
     filter.disabled = true;
   });
 }
+
+//добавляет main метку
+const mainMarkerIcon = L.icon({
+  iconUrl: '../img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52],
+});
+
+const mapMarkerMain = L.marker(
+  {
+    lat: 35.68940,
+    lng: 139.69200,
+  },
+  {
+    draggable: true,
+    icon: mainMarkerIcon,
+  },
+);
+
 //активное состояние карты
 const map = L.map('map-canvas')
 const initMap = () => {
@@ -32,8 +52,8 @@ const initMap = () => {
     });
   })
     .setView({
-      lat: 35.6894,
-      lng: 139.692,
+      lat: 35.68940,
+      lng: 139.69200,
     }, 10);
 
   const mapTile = L.tileLayer(
@@ -44,24 +64,6 @@ const initMap = () => {
   );
 
   mapTile.addTo(map);
-
-  //добавляет main метку
-  const mainMarkerIcon = L.icon({
-    iconUrl: '../img/main-pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
-  });
-
-  const mapMarkerMain = L.marker(
-    {
-      lat: 35.6894,
-      lng: 139.692,
-    },
-    {
-      draggable: true,
-      icon: mainMarkerIcon,
-    },
-  );
 
   mapMarkerMain.addTo(map);
   const x = mapMarkerMain.getLatLng().lat.toFixed(5);
@@ -101,4 +103,9 @@ const addMarkersToMap = (ads) => {
   });
 }
 
-export {disableMap, initMap, addMarkersToMap};
+const resetMainPin = () => {
+  const defaultLatLng =new L.LatLng(DEFAULT_ADRESS.lat, DEFAULT_ADRESS.lng);
+  mapMarkerMain.setLatLng(defaultLatLng);
+}
+
+export {disableMap, initMap, addMarkersToMap, resetMainPin};

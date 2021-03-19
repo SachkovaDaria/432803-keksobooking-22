@@ -1,6 +1,7 @@
+import {DEFAULT_ADRESS} from './utils.js';
 import {createAd} from './api.js';
 import {showErrorMessage, showSuccessMessage} from './utils.js';
-
+import {resetMainPin} from './map.js'
 
 const form = document.querySelector('.ad-form');
 const formPriceElement = form.querySelector('#price');
@@ -13,6 +14,11 @@ address.readOnly = true;
 const setAdressOnMap = (addressX,addressY) => {
   address.value =`${addressX}, ${addressY}`;
 }
+
+const setDefaultAdress = () => {
+  address.value =`${DEFAULT_ADRESS.lat}, ${DEFAULT_ADRESS.lng}`;
+}
+
 
 const validateForm = () => {
 
@@ -87,7 +93,7 @@ formRoomElement.addEventListener('change', (evt) => {
 const onSuccessSubmitForm = () => {
   showSuccessMessage();
   form.reset();
-  setAdressOnMap('35.68940','139.69200');
+  setDefaultAdress();
 };
 
 const onErrorSubmitForm = () => {
@@ -103,14 +109,16 @@ const onErrorSubmitForm = () => {
 
 formCleanButton.addEventListener('click',()=>{
   form.reset();
-  setAdressOnMap('35.68940','139.69200');
+  setDefaultAdress();
+  resetMainPin();
 });
 
 
 const setFormSubmit = () => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
-
+    setDefaultAdress();
+    resetMainPin();
     const formData = new FormData(evt.target);
     createAd(formData, onSuccessSubmitForm, onErrorSubmitForm);
   });
