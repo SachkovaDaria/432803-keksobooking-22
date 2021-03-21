@@ -103,6 +103,7 @@ const addMarkersToMap = (ads) => {
   });
 }
 
+
 const resetMainPin = () => {
   const defaultLatLng =new L.LatLng(DEFAULT_ADRESS.lat, DEFAULT_ADRESS.lng);
   mapMarkerMain.setLatLng(defaultLatLng);

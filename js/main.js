@@ -2,14 +2,17 @@ import {disableMap, initMap, addMarkersToMap} from './map.js';
 import {validateForm} from './form.js';
 import {showErrorMessage} from './utils.js';
 import {getAds} from './api.js';
+import {initFilterForm} from './filter.js';
 
-// const ADS_RENDER_COUNT = 10;
 
 let ads =[];
 
 const onSuccessAdsLoad = (adsFromAPI) => {
   ads = adsFromAPI;
   addMarkersToMap(ads);
+  initFilterForm(ads);
+  // console.log(ads);
+  // console.log(ads[0].offer.features.includes('wifi'));
 };
 
 const onErrorAdsLoad = (error) => {
@@ -23,7 +26,3 @@ initMap();
 getAds(onSuccessAdsLoad, onErrorAdsLoad)
 
 validateForm();
-
-
-
-
