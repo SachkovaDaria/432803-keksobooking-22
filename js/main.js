@@ -1,4 +1,4 @@
-import {disableMap, initMap, addMarkersToMap} from './map.js';
+import {disableMap, initMap, addMarkersToMap, removeMarkersFromMap} from './map.js';
 import {validateForm} from './form.js';
 import {showErrorMessage} from './utils.js';
 import {getAds} from './api.js';
@@ -11,6 +11,8 @@ const onSuccessAdsLoad = (adsFromAPI) => {
   ads = adsFromAPI;
   addMarkersToMap(ads);
   initFilterForm(ads);
+  removeMarkersFromMap(ads);
+  console.log(ads)
   // console.log(ads);
   // console.log(ads[0].offer.features.includes('wifi'));
 };

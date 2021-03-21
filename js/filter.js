@@ -49,10 +49,9 @@ const checkGuests = (ad) => {
   || (guestsFilter.value === '2' && ad.offer.guests == 2)
   || (guestsFilter.value === '0' && ad.offer.guests == 0)
 };
-const initFilterForm = (ads) => {
+const initFilterForm = (ads, addTo) => {
 
   mapFilters.addEventListener('change', () => {
-
 
     const filterAds = [];
 
@@ -76,7 +75,7 @@ const initFilterForm = (ads) => {
 
       filterAds.push(ads[i]);
     }
-    console.log(filterAds);
+    filterAds.addto;
   });
 };
 
