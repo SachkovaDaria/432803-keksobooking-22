@@ -83,7 +83,7 @@ const markerIcon = L.icon({
 });
 //добавляет обычные метки на карту
 
-const marker = (lat, lng) => L.marker(
+const makeMarker = (lat, lng) => L.marker(
   {
     lat: lat,
     lng: lng,
@@ -93,24 +93,25 @@ const marker = (lat, lng) => L.marker(
   },
 );
 
+let markers = [];
+
 const addMarkersToMap = (ads) => {
   ads.forEach((ad) => {
     const lat = ad.location.lat;
     const lng = ad.location.lng;
-    marker(lat,lng).addTo(map).bindPopup(
+    const mark = makeMarker(lat,lng).addTo(map).bindPopup(
       createCardElement(ad),
     );
+    markers.push(mark);
   });
-}
+};
 
-const removeMarkersFromMap = (ads) => {
-  ads.forEach((ad) => {
-    const lat = ad.location.lat;
-    const lng = ad.location.lng;
-    marker(lat, lng).remove();
+
+const removeMarkersFromMap = () => {
+  markers.forEach((mark) => {
+    map.removeLayer(mark);
   });
-}
-
+};
 
 
 const resetMainPin = () => {
