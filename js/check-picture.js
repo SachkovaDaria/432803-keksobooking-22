@@ -1,35 +1,15 @@
-const FILE_TYPES = ['image/jpg','image/gif', 'image/jpeg', 'image/png'];
+const FILE_TYPES = ['image/jpg', 'image/gif', 'image/jpeg', 'image/png'];
 
-const checkAvatar = (fileChooser, preview) => {
-  fileChooser.addEventListener('change', () => {
-    const file = fileChooser.files[0];
+const formAvatarPicElement = document.querySelector('.ad-form-header__preview img');
+const formUploadPicElement = document.querySelector('.ad-form__photo');
 
-    const matches = FILE_TYPES.some((type) => {
-      return file.type === type;
-    });
+formUploadPicElement.style.backgroundSize = 'contain';
+formUploadPicElement.style.backgroundRepeat = 'no-repeat';
+formUploadPicElement.style.backgroundPosition = 'center';
 
-    if (matches) {
-      const reader = new FileReader();
-
-      reader.addEventListener('load', () => {
-        preview.src = reader.result;
-      });
-
-      reader.readAsDataURL(file);
-    }
-  });
-};
-
-const checkPictureAd = (fileChooser, preview) => {
-  fileChooser.addEventListener('change', () => {
-    const file = fileChooser.files[0];
-
-    const setBackground = (imageURL) => {
-      preview.style.backgroundImage = 'url(' + imageURL + ')';
-      preview.style.backgroundSize = '100%';
-      preview.style.backgroundRepeat = 'no-repeat';
-      preview.body.style.backgroundPosition = 'center top';
-    }
+const setHandlerPic = (inputElement, onLoad) => {
+  inputElement.addEventListener('change', () => {
+    const file = inputElement.files[0];
 
     const matches = FILE_TYPES.some((type) => {
       return file.type === type;
@@ -39,7 +19,7 @@ const checkPictureAd = (fileChooser, preview) => {
       const reader = new FileReader();
 
       reader.addEventListener('load', () => {
-        preview.src = setBackground(reader.result);
+        onLoad(reader.result);
       });
 
       reader.readAsDataURL(file);
@@ -47,4 +27,13 @@ const checkPictureAd = (fileChooser, preview) => {
   });
 };
 
-export {checkAvatar,checkPictureAd};
+
+const setBackgroundPic = (picbase64) => {
+  formUploadPicElement.style.backgroundImage = `url(${picbase64})`;
+}
+
+const setAvatarPic = (picbase64) => {
+  formAvatarPicElement.src = picbase64;
+}
+
+export { setBackgroundPic,setAvatarPic, setHandlerPic };

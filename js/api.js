@@ -1,5 +1,3 @@
-
-
 const getAds = (onSuceess, onError) => {
   fetch('https://22.javascript.pages.academy/keksobooking/data')
 

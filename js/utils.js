@@ -19,12 +19,12 @@ const showErrorMessage = () => {
   const templateFragment = document.querySelector('#error').content.querySelector('.error');
   const messageElement = templateFragment.cloneNode(true);
 
-  const onMessageEscKeyDown = onEscKeydown.bind(this, () =>{
-    closeMassage(messageElement,onMessageEscKeyDown);
+  const onMessageEscKeyDown = onEscKeydown.bind(this, () => {
+    closeMassage(messageElement, onMessageEscKeyDown);
   })
 
   messageElement.addEventListener('click', () => {
-    closeMassage(messageElement,onMessageEscKeyDown);
+    closeMassage(messageElement, onMessageEscKeyDown);
   })
 
   document.addEventListener('keydown', onMessageEscKeyDown);
@@ -36,12 +36,12 @@ const showSuccessMessage = () => {
   const templateSuccessElement = document.querySelector('#success').content.querySelector('.success')
   const messageElement = templateSuccessElement.cloneNode(true);
 
-  const onMessageEscKeyDown = onEscKeydown.bind(this, () =>{
-    closeMassage(messageElement,onMessageEscKeyDown);
+  const onMessageEscKeyDown = onEscKeydown.bind(this, () => {
+    closeMassage(messageElement, onMessageEscKeyDown);
   })
 
   messageElement.addEventListener('click', () => {
-    closeMassage(messageElement,onMessageEscKeyDown);
+    closeMassage(messageElement, onMessageEscKeyDown);
   })
 
   document.addEventListener('keydown', onMessageEscKeyDown);
@@ -50,4 +50,4 @@ const showSuccessMessage = () => {
 };
 
 
-export {DEFAULT_ADRESS, showErrorMessage, showSuccessMessage}
+export { DEFAULT_ADRESS, showErrorMessage, showSuccessMessage }

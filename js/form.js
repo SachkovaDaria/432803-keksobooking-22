@@ -1,27 +1,37 @@
-import {DEFAULT_ADRESS} from './utils.js';
-import {createAd} from './api.js';
-import {showErrorMessage, showSuccessMessage} from './utils.js';
-import {addMarkersToMap, resetMainPin, removeMarkersFromMap} from './map.js';
-import {checkAvatar, checkPictureAd} from './check-picture.js';
+import { DEFAULT_ADRESS } from './utils.js';
+import { createAd } from './api.js';
+import { showErrorMessage, showSuccessMessage } from './utils.js';
+import { resetMainPin, resetMapForm } from './map.js';
+import { setBackgroundPic, setAvatarPic, setHandlerPic } from './check-picture.js';
 
 
 const form = document.querySelector('.ad-form');
+
 const formPriceElement = form.querySelector('#price');
 const formTypeElement = form.querySelector('#type');
 const formCleanButton = form.querySelector('.ad-form__reset');
-const mapFilters = document.querySelector('.map__filters');
-const address = document.querySelector('#address');
+const formAddressElement = form.querySelector('#address');
+const formAvatarElement = form.querySelector('#avatar');
+const formUploadElement = form.querySelector('#images');
+const formRoomElement = form.querySelector('#room_number');
+const formCapacityElement = form.querySelector('#capacity');
+const errorMessage = form.querySelector('.error');
+const messageButton = form.querySelector('.error__button');
+const formTimeIn = form.querySelector('#timein');
+const formTimeOut = form.querySelector('#timeout');
 
-address.readOnly = true;
 
-const setAdressOnMap = (addressX,addressY) => {
-  address.value =`${addressX}, ${addressY}`;
+setHandlerPic(formAvatarElement, setAvatarPic);
+setHandlerPic(formUploadElement, setBackgroundPic);
+
+const setAdressOnMap = (addressX, addressY) => {
+  formAddressElement.value = `${addressX}, ${addressY}`;
 }
 
+formAddressElement.readOnly = true;
 const setDefaultAdress = () => {
-  address.value =`${DEFAULT_ADRESS.lat}, ${DEFAULT_ADRESS.lng}`;
+  formAddressElement.value = `${DEFAULT_ADRESS.lat}, ${DEFAULT_ADRESS.lng}`;
 }
-
 
 const validateForm = () => {
 
@@ -38,11 +48,8 @@ const validateForm = () => {
     formPriceElement.placeholder = value;
     formPriceElement.min = value;
     formPriceElement.max = '1 000 000';
-    formPriceElement.type= 'number';
+    formPriceElement.type = 'number';
   });
-
-  const formTimeIn = form.querySelector('#timein');
-  const formTimeOut = form.querySelector('#timeout');
 
   formTimeIn.addEventListener('change', (evt) => {
     const timeIn = evt.target.value;
@@ -54,9 +61,6 @@ const validateForm = () => {
     formTimeIn.value = timeOut;
   });
 };
-
-const formRoomElement = form.querySelector('#room_number');
-const formCapacityElement = form.querySelector('#capacity');
 
 formRoomElement.addEventListener('change', (evt) => {
   const rooms = evt.target.value;
@@ -93,14 +97,6 @@ formRoomElement.addEventListener('change', (evt) => {
   }
 });
 
-const formAvatarElement = document.querySelector('.ad-form__field input[type=file]');
-const formAvatarPic = document.querySelector('.ad-form-header__preview img');
-
-const formUploadElement = document.querySelector('.ad-form__upload input[type=file]');
-const formUploadPic = document.querySelector('.ad-form__photo');
-
-checkPictureAd(formUploadElement, formUploadPic);
-checkAvatar(formAvatarElement, formAvatarPic);
 
 const onSuccessSubmitForm = () => {
   showSuccessMessage();
@@ -110,20 +106,16 @@ const onSuccessSubmitForm = () => {
 
 const onErrorSubmitForm = () => {
   showErrorMessage();
-  const errorMessage = document.querySelector('.error');
-  const messageButton = document.querySelector('.error__button');
-
   messageButton.addEventListener('click', () => {
     errorMessage.remove();
   });
 };
 
+
 const resetForm = (ads) => {
-  formCleanButton.addEventListener('click',() => {
+  formCleanButton.addEventListener('click', () => {
     form.reset();
-    mapFilters.reset();
-    removeMarkersFromMap();
-    addMarkersToMap(ads);
+    resetMapForm(ads);
     setDefaultAdress();
     resetMainPin();
   });
@@ -139,6 +131,5 @@ const setFormSubmit = () => {
   });
 };
 
-setFormSubmit();
 
-export {validateForm, setAdressOnMap, resetForm};
+export { validateForm, setAdressOnMap, resetForm, setFormSubmit };
