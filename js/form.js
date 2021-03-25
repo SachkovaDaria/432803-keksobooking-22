@@ -1,9 +1,38 @@
+import { DEFAULT_ADRESS } from './utils.js';
+import { createAd } from './api.js';
+import { showErrorMessage, showSuccessMessage } from './utils.js';
+import { resetMainPin, resetMapForm } from './map.js';
+import { setBackgroundPic, setAvatarPic, setHandlerPic } from './check-picture.js';
+
 
 const form = document.querySelector('.ad-form');
+
 const formPriceElement = form.querySelector('#price');
 const formTypeElement = form.querySelector('#type');
 const formCleanButton = form.querySelector('.ad-form__reset');
-const mainElement = document.querySelector('main');
+const formAddressElement = form.querySelector('#address');
+const formAvatarElement = form.querySelector('#avatar');
+const formUploadElement = form.querySelector('#images');
+const formRoomElement = form.querySelector('#room_number');
+const formCapacityElement = form.querySelector('#capacity');
+const errorMessage = form.querySelector('.error');
+const messageButton = form.querySelector('.error__button');
+const formTimeIn = form.querySelector('#timein');
+const formTimeOut = form.querySelector('#timeout');
+
+
+setHandlerPic(formAvatarElement, setAvatarPic);
+setHandlerPic(formUploadElement, setBackgroundPic);
+
+const setAdressOnMap = (addressX, addressY) => {
+  formAddressElement.value = `${addressX}, ${addressY}`;
+}
+
+formAddressElement.readOnly = true;
+const setDefaultAdress = () => {
+  formAddressElement.value = `${DEFAULT_ADRESS.lat}, ${DEFAULT_ADRESS.lng}`;
+}
+
 const validateForm = () => {
 
   const adPlaceholderText = {
@@ -19,11 +48,8 @@ const validateForm = () => {
     formPriceElement.placeholder = value;
     formPriceElement.min = value;
     formPriceElement.max = '1 000 000';
-    formPriceElement.type= 'number';
+    formPriceElement.type = 'number';
   });
-
-  const formTimeIn = form.querySelector('#timein');
-  const formTimeOut = form.querySelector('#timeout');
 
   formTimeIn.addEventListener('change', (evt) => {
     const timeIn = evt.target.value;
@@ -34,64 +60,76 @@ const validateForm = () => {
     const timeOut = evt.target.value;
     formTimeIn.value = timeOut;
   });
-}
-
-
-const showSuccessMessageForm = () => {
-  const templateFragment = document.querySelector('#success').content.querySelector('.success')
-  const messageElementSuccess = templateFragment.cloneNode(true);
-  mainElement.appendChild(messageElementSuccess);
-
-  const onEscKeydown = (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-      evt.preventDefault();
-      messageElementSuccess.remove();
-    }
-  }
-  document.addEventListener('keydown',onEscKeydown);
-  document.addEventListener('click', () => {
-    messageElementSuccess.remove();
-    document.removeEventListener('keydown',onEscKeydown);
-  });
 };
 
-const showErrorMessageForm = () => {
-  const templateFragment = document.querySelector('#error').content.querySelector('.error');
-  const messageElementError = templateFragment.cloneNode(true);
-  const messageButton = messageElementError.querySelector('.error__button');
+formRoomElement.addEventListener('change', (evt) => {
+  const rooms = evt.target.value;
 
-  mainElement.appendChild(messageElementError);
+  switch (rooms) {
+    case '2':
+      formCapacityElement[0].disabled = true;
+      formCapacityElement[1].disabled = false;
+      formCapacityElement[2].disabled = false;
+      formCapacityElement[3].disabled = true;
+      break;
+    case '3':
+      formCapacityElement[0].disabled = false;
+      formCapacityElement[1].disabled = false;
+      formCapacityElement[2].disabled = false;
+      formCapacityElement[3].disabled = true;
+      break;
+    case '100':
+      formCapacityElement[0].disabled = true;
+      formCapacityElement[1].disabled = true;
+      formCapacityElement[2].disabled = true;
+      formCapacityElement[3].disabled = false;
 
-  const onEscKeydown = (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-      evt.preventDefault();
-      messageElementError.remove();
-    }
+      formCapacityElement[3].selected = true;
+      break;
+    case '1':
+      formCapacityElement[0].disabled = true;
+      formCapacityElement[1].disabled = true;
+      formCapacityElement[2].disabled = false;
+      formCapacityElement[3].disabled = true;
+
+      formCapacityElement[2].selected = true;
+      break;
   }
-  document.addEventListener('keydown',onEscKeydown);
-
-
-  messageButton.addEventListener('click', () => {
-    messageElementError.remove();
-    document.removeEventListener('keydown',onEscKeydown);
-  });
-  document.addEventListener('click', () => {
-    messageElementError.remove();
-    document.removeEventListener('keydown',onEscKeydown);
-  });
-};
-
-const address = document.querySelector('#address');
-address.readOnly = true;
-
-const setAdressOnMap = (addressX,addressY) => {
-  address.value =`${addressX}, ${addressY}`;
-}
-
-formCleanButton.addEventListener('click',()=>{
-  form.reset();
-  setAdressOnMap('35.68940','139.69200');
 });
 
 
-export {validateForm, setAdressOnMap, showSuccessMessageForm, showErrorMessageForm};
+const onSuccessSubmitForm = () => {
+  showSuccessMessage();
+  form.reset();
+  setDefaultAdress();
+};
+
+const onErrorSubmitForm = () => {
+  showErrorMessage();
+  messageButton.addEventListener('click', () => {
+    errorMessage.remove();
+  });
+};
+
+
+const resetForm = (ads) => {
+  formCleanButton.addEventListener('click', () => {
+    form.reset();
+    resetMapForm(ads);
+    setDefaultAdress();
+    resetMainPin();
+  });
+};
+
+const setFormSubmit = () => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    setDefaultAdress();
+    resetMainPin();
+    const formData = new FormData(evt.target);
+    createAd(formData, onSuccessSubmitForm, onErrorSubmitForm);
+  });
+};
+
+
+export { validateForm, setAdressOnMap, resetForm, setFormSubmit };

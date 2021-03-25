@@ -8,7 +8,6 @@ const adTypeText = {
 };
 
 //получаю одно объявление
-
 const createCardElement = (ad) => {
   const cardPopupTemplate = document.querySelector('#card').content.querySelector('.popup');
   const adElement = cardPopupTemplate.cloneNode(true);
@@ -72,7 +71,7 @@ const createCardElement = (ad) => {
     adFeatureItems.forEach((featureElement) => {
       featureElement.remove();
     });
-    ad.offer.features.forEach((feature)=>{
+    ad.offer.features.forEach((feature) => {
       const li = document.createElement('li');
       li.classList.add('popup__feature');
       li.classList.add(`popup__feature--${feature}`);
@@ -103,7 +102,7 @@ const createCardElement = (ad) => {
       const newImg = document.createElement('img');
       newImg.classList.add('popup__photo');
       newImg.src = photo;
-      newImg.alt= ('Фотография жилья');
+      newImg.alt = ('Фотография жилья');
       newImg.height = 40;
       newImg.width = 45;
       adImagesElement.appendChild(newImg);
@@ -120,14 +119,6 @@ const createCardElement = (ad) => {
   return adElement;
 };
 
-const createCardElements = (ads) => {
 
-  const cardElements = [];
-  ads.forEach((ad) => {
-    createCardElement;
-    cardElements.push(ad);
-  });
-  return cardElements;
-};
 
-export {createCardElements , createCardElement};
+export { createCardElement };
