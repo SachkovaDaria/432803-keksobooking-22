@@ -36,4 +36,11 @@ const setAvatarPic = (picbase64) => {
   formAvatarPicElement.src = picbase64;
 }
 
-export { setBackgroundPic,setAvatarPic, setHandlerPic };
+const resetAvatarPic = () => {
+  formAvatarPicElement.src = 'img/muffin-grey.svg';
+}
+const resetBackgroundPic = () => {
+  formUploadPicElement.style.backgroundImage = 'none';
+}
+
+export { setBackgroundPic, setAvatarPic, setHandlerPic, resetAvatarPic, resetBackgroundPic };

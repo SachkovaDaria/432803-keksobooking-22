@@ -1,5 +1,6 @@
-import { addMarkersToMap, removeMarkersFromMap } from './map.js';
+/* global _:readonly */
 
+import { addMarkersToMap, removeMarkersFromMap } from './map.js';
 
 const ADS_RENDER_COUNT = 10;
 
@@ -43,13 +44,17 @@ const checkGuests = (ad) => {
     || (guestsFilter.value === '0' && ad.offer.guests === 0)
 };
 
+const RERENDER_DELAY = 500;
+
+
+
 const initFilterForm = (ads) => {
   mapFilters.addEventListener('change', () => {
-
+    const filterAds = [];
     removeMarkersFromMap();
 
     const cheakedFeaturesElement = featuresFilter.querySelectorAll('.map__checkbox:checked');
-    const filterAds = [];
+
 
     for (let i = 0; i < ads.length && i <= ADS_RENDER_COUNT; i++) {
       if (!checkType(ads[i])) {
@@ -73,9 +78,10 @@ const initFilterForm = (ads) => {
     }
 
     removeMarkersFromMap();
-    addMarkersToMap(filterAds);
+    debounced(filterAds);
   });
 };
 
+const debounced = _.debounce((ads) => addMarkersToMap(ads), RERENDER_DELAY);
 
 export { initFilterForm }

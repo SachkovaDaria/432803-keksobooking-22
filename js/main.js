@@ -1,4 +1,4 @@
-import { disableMap, initMap, addMarkersToMap } from './map.js';
+import { disableMap, initMap, addMarkersToMap, getMapFiltersActive } from './map.js';
 import { validateForm, resetForm, setFormSubmit } from './form.js';
 import { showErrorMessage } from './utils.js';
 import { getAds } from './api.js';
@@ -10,6 +10,7 @@ let ads = [];
 const onSuccessAdsLoad = (adsFromAPI) => {
   ads = adsFromAPI;
   addMarkersToMap(ads);
+  getMapFiltersActive();
   initFilterForm(ads);
   resetForm(ads);
 };
@@ -23,3 +24,4 @@ initMap();
 setFormSubmit();
 getAds(onSuccessAdsLoad, onErrorAdsLoad);
 validateForm();
+

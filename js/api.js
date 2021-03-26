@@ -2,8 +2,8 @@ const getAds = (onSuceess, onError) => {
   fetch('https://22.javascript.pages.academy/keksobooking/data')
 
     .then(response => {
-      if(!response.ok) {
-        throw new Error ('Упс... ошибка. Уже разбираемся, что стряслось.' );
+      if (!response.ok) {
+        throw new Error('Упс... ошибка. Уже разбираемся, что стряслось.');
       }
 
       return response.json();
@@ -18,20 +18,19 @@ const getAds = (onSuceess, onError) => {
 
 
 const createAd = (adFormData, onSuccess, onError) => {
-  fetch ('https://22.javascript.pages.academy/keksobooking', {
+  fetch('https://22.javascript.pages.academy/keksobooking', {
     method: 'POST',
     body: adFormData,
   })
     .then((response) => {
-      if(!response.ok) {
+      if (!response.ok) {
         throw new Error();
       }
-
       onSuccess();
     })
     .catch(() => {
-      onError();
+      onError()
     });
 };
 
-export {getAds, createAd};
+export { getAds, createAd };

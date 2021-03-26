@@ -8,6 +8,7 @@ const fieldsetElements = formElement.querySelectorAll('fieldset');
 
 const filterElement = document.querySelector('.map__filters');
 const filterElements = filterElement.querySelectorAll('.map__filter');
+const filterFeaturesElement = filterElement.querySelector('.map__features');
 
 
 // неактивное состояние карты
@@ -20,6 +21,7 @@ const disableMap = () => {
   filterElements.forEach((filter) => {
     filter.disabled = true;
   });
+  filterFeaturesElement.disabled = true;
 }
 
 //добавляет main метку
@@ -43,14 +45,11 @@ const mapMarkerMain = L.marker(
 //активное состояние карты
 const map = L.map('map-canvas')
 const initMap = () => {
+
   map.addEventListener('load', () => {
     formElement.classList.remove('ad-form--disabled');
     fieldsetElements.forEach((fieldset) => {
       fieldset.disabled = false;
-    });
-    filterElement.classList.remove('map__filters--disabled');
-    filterElements.forEach((filter) => {
-      filter.disabled = false;
     });
   })
     .setView({
@@ -68,15 +67,24 @@ const initMap = () => {
   mapTile.addTo(map);
 
   mapMarkerMain.addTo(map);
-  const x = mapMarkerMain.getLatLng().lat.toFixed(5);
-  const y = mapMarkerMain.getLatLng().lng.toFixed(5);
+  const x = mapMarkerMain.getLatLng().lng.toFixed(5);
+  const y = mapMarkerMain.getLatLng().lat.toFixed(5);
+
   setAdressOnMap(x, y);
   mapMarkerMain.addEventListener('moveend', (evt) => {
-    const addressX = evt.target.getLatLng().lat.toFixed(5);
-    const addressY = evt.target.getLatLng().lng.toFixed(5);
+    const addressX = evt.target.getLatLng().lng.toFixed(5);
+    const addressY = evt.target.getLatLng().lat.toFixed(5);
     setAdressOnMap(addressX, addressY)
   });
 };
+
+const getMapFiltersActive = () => {
+  filterElement.classList.remove('map__filters--disabled');
+  filterElements.forEach((filter) => {
+    filter.disabled = false;
+  });
+  filterFeaturesElement.disabled = false;
+}
 
 //обычная метка
 const markerIcon = L.icon({
@@ -126,4 +134,4 @@ const resetMapForm = (ads) => {
   addMarkersToMap(ads);
 };
 
-export { disableMap, initMap, addMarkersToMap, resetMainPin, removeMarkersFromMap, resetMapForm };
+export { disableMap, initMap, addMarkersToMap, resetMainPin, removeMarkersFromMap, resetMapForm, getMapFiltersActive };

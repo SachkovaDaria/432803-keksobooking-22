@@ -2,7 +2,7 @@ import { DEFAULT_ADRESS } from './utils.js';
 import { createAd } from './api.js';
 import { showErrorMessage, showSuccessMessage } from './utils.js';
 import { resetMainPin, resetMapForm } from './map.js';
-import { setBackgroundPic, setAvatarPic, setHandlerPic } from './check-picture.js';
+import { setBackgroundPic, setAvatarPic, setHandlerPic, resetAvatarPic, resetBackgroundPic } from './check-picture.js';
 
 
 const form = document.querySelector('.ad-form');
@@ -29,8 +29,9 @@ const setAdressOnMap = (addressX, addressY) => {
 }
 
 formAddressElement.readOnly = true;
+
 const setDefaultAdress = () => {
-  formAddressElement.value = `${DEFAULT_ADRESS.lat}, ${DEFAULT_ADRESS.lng}`;
+  formAddressElement.value = `${DEFAULT_ADRESS.lng}, ${DEFAULT_ADRESS.lat}`;
 }
 
 const validateForm = () => {
@@ -42,13 +43,14 @@ const validateForm = () => {
     house: 5000,
   };
 
+  formPriceElement.max = '1000000';
+  formPriceElement.type = 'number';
+
   formTypeElement.addEventListener('change', (evt) => {
     const value = adPlaceholderText[evt.target.value];
 
     formPriceElement.placeholder = value;
     formPriceElement.min = value;
-    formPriceElement.max = '1 000 000';
-    formPriceElement.type = 'number';
   });
 
   formTimeIn.addEventListener('change', (evt) => {
@@ -71,12 +73,16 @@ formRoomElement.addEventListener('change', (evt) => {
       formCapacityElement[1].disabled = false;
       formCapacityElement[2].disabled = false;
       formCapacityElement[3].disabled = true;
+
+      formCapacityElement[2].selected = true;
       break;
     case '3':
       formCapacityElement[0].disabled = false;
       formCapacityElement[1].disabled = false;
       formCapacityElement[2].disabled = false;
       formCapacityElement[3].disabled = true;
+
+      formCapacityElement[2].selected = true;
       break;
     case '100':
       formCapacityElement[0].disabled = true;
@@ -111,23 +117,34 @@ const onErrorSubmitForm = () => {
   });
 };
 
+// const onErrorSubmitForm = () => {
+//   form.addEventListener('invalid', () => {
+//     if (formCapacityElement.validity.valid) {
+//       console.log('asdf');
+//     }
+//   });
+// };
 
 const resetForm = (ads) => {
   formCleanButton.addEventListener('click', () => {
     form.reset();
-    resetMapForm(ads);
     setDefaultAdress();
+    resetMapForm(ads);
     resetMainPin();
+    resetAvatarPic();
+    resetBackgroundPic();
   });
 };
 
 const setFormSubmit = () => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    setDefaultAdress();
-    resetMainPin();
     const formData = new FormData(evt.target);
     createAd(formData, onSuccessSubmitForm, onErrorSubmitForm);
+    setDefaultAdress();
+    resetMainPin();
+    resetAvatarPic();
+    resetBackgroundPic();
   });
 };
 
