@@ -9,6 +9,7 @@ const form = document.querySelector('.ad-form');
 
 const formPriceElement = form.querySelector('#price');
 const formTypeElement = form.querySelector('#type');
+const formTitleElement = form.querySelector('#title');
 const formCleanButton = form.querySelector('.ad-form__reset');
 const formAddressElement = form.querySelector('#address');
 const formAvatarElement = form.querySelector('#avatar');
@@ -124,6 +125,20 @@ const onErrorSubmitForm = () => {
 //     }
 //   });
 // };
+
+formTitleElement.addEventListener('invalid', () => {
+  if (formTitleElement.validity.tooShort) {
+    formTitleElement.setCustomValidity('подумай еще, нужно больше символов, хотя бы 30')
+  }
+});
+
+formCapacityElement.addEventListener('invalid', () =>
+{ if (formTitleElement.validity.valid) {
+  formTitleElement.style.border = '1px solid red';
+}
+});
+
+console.log(formPriceElement.validity);
 
 const resetForm = (ads) => {
   formCleanButton.addEventListener('click', () => {
