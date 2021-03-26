@@ -40,7 +40,7 @@ const resetAvatarPic = () => {
   formAvatarPicElement.src = 'img/muffin-grey.svg';
 }
 const resetBackgroundPic = () => {
-  formUploadPicElement.style.backgroundImage = 'none';
+  formUploadPicElement.style.backgroundImage = '';
 }
 
 export { setBackgroundPic, setAvatarPic, setHandlerPic, resetAvatarPic, resetBackgroundPic };

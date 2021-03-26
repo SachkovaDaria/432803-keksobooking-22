@@ -1,7 +1,8 @@
 /* global _:readonly */
-
 import { addMarkersToMap, removeMarkersFromMap } from './map.js';
 
+
+const RERENDER_DELAY = 500;
 const ADS_RENDER_COUNT = 10;
 
 const mapFilters = document.querySelector('.map__filters');
@@ -44,44 +45,45 @@ const checkGuests = (ad) => {
     || (guestsFilter.value === '0' && ad.offer.guests === 0)
 };
 
-const RERENDER_DELAY = 500;
+const filterAds = (ads) => {
+  const filteredAds = [];
+  removeMarkersFromMap();
 
+  const cheakedFeaturesElement = featuresFilter.querySelectorAll('.map__checkbox:checked');
 
-
-const initFilterForm = (ads) => {
-  mapFilters.addEventListener('change', () => {
-    const filterAds = [];
-    removeMarkersFromMap();
-
-    const cheakedFeaturesElement = featuresFilter.querySelectorAll('.map__checkbox:checked');
-
-
-    for (let i = 0; i < ads.length && i <= ADS_RENDER_COUNT; i++) {
-      if (!checkType(ads[i])) {
-        continue;
-      }
-      if (!checkPrice(ads[i])) {
-        continue;
-      }
-      if (!checkRooms(ads[i])) {
-        continue;
-      }
-      if (!checkGuests(ads[i])) {
-        continue;
-      }
-
-      if (!checkFeatures(ads[i], Array.from(cheakedFeaturesElement))) {
-        continue;
-      }
-
-      filterAds.push(ads[i]);
+  for (let i = 0; i < ads.length && i <= ADS_RENDER_COUNT; i++) {
+    if (!checkType(ads[i])) {
+      continue;
+    }
+    if (!checkPrice(ads[i])) {
+      continue;
+    }
+    if (!checkRooms(ads[i])) {
+      continue;
+    }
+    if (!checkGuests(ads[i])) {
+      continue;
     }
 
-    removeMarkersFromMap();
-    debounced(filterAds);
-  });
+    if (!checkFeatures(ads[i], Array.from(cheakedFeaturesElement))) {
+      continue;
+    }
+
+    filteredAds.push(ads[i]);
+  }
+
+  removeMarkersFromMap();
+  addMarkersToMap(filteredAds);
 };
 
-const debounced = _.debounce((ads) => addMarkersToMap(ads), RERENDER_DELAY);
+const initFilterForm = (ads) => {
+  mapFilters.addEventListener('change', _.debounce(
+    () => {
+      filterAds(ads)
+    },
+    RERENDER_DELAY,
+  ));
+};
+
 
 export { initFilterForm }

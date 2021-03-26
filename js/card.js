@@ -1,5 +1,3 @@
-//const mapElement = document.querySelector('.map__canvas');
-
 const adTypeText = {
   flat: 'Квартира',
   palace: 'Дворец',

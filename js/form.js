@@ -118,30 +118,25 @@ const onErrorSubmitForm = () => {
   });
 };
 
-// const onErrorSubmitForm = () => {
-//   form.addEventListener('invalid', () => {
-//     if (formCapacityElement.validity.valid) {
-//       console.log('asdf');
-//     }
-//   });
-// };
-
-formTitleElement.addEventListener('invalid', () => {
-  if (formTitleElement.validity.tooShort) {
-    formTitleElement.setCustomValidity('подумай еще, нужно больше символов, хотя бы 30')
-  }
+formTitleElement.addEventListener('invalid', (evt) => {
+  evt.target.style.border = '1px solid red';
 });
 
-formCapacityElement.addEventListener('invalid', () =>
-{ if (formTitleElement.validity.valid) {
-  formTitleElement.style.border = '1px solid red';
-}
+formTitleElement.addEventListener('input', (evt) => {
+  evt.target.style.border = '';
 });
 
-console.log(formPriceElement.validity);
+formPriceElement.addEventListener('invalid', (evt) => {
+  evt.target.style.border = '1px solid red';
+});
+
+formPriceElement.addEventListener('input', (evt) => {
+  evt.target.style.border = '';
+});
 
 const resetForm = (ads) => {
-  formCleanButton.addEventListener('click', () => {
+  formCleanButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
     form.reset();
     setDefaultAdress();
     resetMapForm(ads);

@@ -24,4 +24,3 @@ initMap();
 setFormSubmit();
 getAds(onSuccessAdsLoad, onErrorAdsLoad);
 validateForm();
-

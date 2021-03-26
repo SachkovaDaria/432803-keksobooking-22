@@ -3,17 +3,16 @@ const DEFAULT_ADRESS = {
   lat: 35.68940,
 };
 
-
 const onEscKeydown = (handler, evt) => {
   if (evt.key === 'Escape' || evt.key === 'Esc') {
     handler();
   }
-}
+};
 
 const closeMassage = (messageElement, onMessageEscKeyDown) => {
   document.removeEventListener('keydown', onMessageEscKeyDown);
   messageElement.remove();
-}
+};
 
 const showErrorMessage = () => {
   const templateFragment = document.querySelector('#error').content.querySelector('.error');
