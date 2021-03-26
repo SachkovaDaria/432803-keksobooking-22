@@ -138,6 +138,7 @@ const resetForm = (ads) => {
   formCleanButton.addEventListener('click', (evt) => {
     evt.preventDefault();
     form.reset();
+    form.reset();
     setDefaultAdress();
     resetMapForm(ads);
     resetMainPin();
@@ -146,13 +147,14 @@ const resetForm = (ads) => {
   });
 };
 
-const setFormSubmit = () => {
+const setFormSubmit = (ads) => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
     createAd(formData, onSuccessSubmitForm, onErrorSubmitForm);
     setDefaultAdress();
     resetMainPin();
+    resetMapForm(ads);
     resetAvatarPic();
     resetBackgroundPic();
   });
