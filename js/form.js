@@ -5,8 +5,10 @@ import { resetMainPin, resetMapForm } from './map.js';
 import { setBackgroundPic, setAvatarPic, setHandlerPic, resetAvatarPic, resetBackgroundPic } from './check-picture.js';
 
 
-const form = document.querySelector('.ad-form');
+const BORDER_ERROR = '1px solid red';
 
+
+const form = document.querySelector('.ad-form');
 const formPriceElement = form.querySelector('#price');
 const formTypeElement = form.querySelector('#type');
 const formTitleElement = form.querySelector('#title');
@@ -119,7 +121,7 @@ const onErrorSubmitForm = () => {
 };
 
 formTitleElement.addEventListener('invalid', (evt) => {
-  evt.target.style.border = '1px solid red';
+  evt.target.style.border = BORDER_ERROR;
 });
 
 formTitleElement.addEventListener('input', (evt) => {
@@ -127,7 +129,7 @@ formTitleElement.addEventListener('input', (evt) => {
 });
 
 formPriceElement.addEventListener('invalid', (evt) => {
-  evt.target.style.border = '1px solid red';
+  evt.target.style.border = BORDER_ERROR;
 });
 
 formPriceElement.addEventListener('input', (evt) => {
@@ -137,7 +139,6 @@ formPriceElement.addEventListener('input', (evt) => {
 const resetForm = (ads) => {
   formCleanButton.addEventListener('click', (evt) => {
     evt.preventDefault();
-    form.reset();
     form.reset();
     setDefaultAdress();
     resetMapForm(ads);
@@ -153,8 +154,8 @@ const setFormSubmit = (ads) => {
     const formData = new FormData(evt.target);
     createAd(formData, onSuccessSubmitForm, onErrorSubmitForm);
     setDefaultAdress();
-    resetMainPin();
     resetMapForm(ads);
+    resetMainPin();
     resetAvatarPic();
     resetBackgroundPic();
   });

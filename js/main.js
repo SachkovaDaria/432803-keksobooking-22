@@ -13,6 +13,7 @@ const onSuccessAdsLoad = (adsFromAPI) => {
   getMapFiltersActive();
   initFilterForm(ads);
   resetForm(ads);
+  setFormSubmit(ads);
 };
 
 const onErrorAdsLoad = (error) => {
@@ -21,6 +22,5 @@ const onErrorAdsLoad = (error) => {
 
 disableMap();
 initMap();
-setFormSubmit();
 getAds(onSuccessAdsLoad, onErrorAdsLoad);
 validateForm();
