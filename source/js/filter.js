@@ -1,4 +1,4 @@
-/* global _:readonly */
+import { debounce } from 'lodash';
 import { addMarkersToMap, removeMarkersFromMap } from './map.js';
 
 
@@ -77,7 +77,7 @@ const filterAds = (ads) => {
 };
 
 const initFilterForm = (ads) => {
-  mapFilters.addEventListener('change', _.debounce(
+  mapFilters.addEventListener('change', debounce(
     () => {
       filterAds(ads)
     },

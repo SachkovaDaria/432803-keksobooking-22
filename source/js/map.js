@@ -1,4 +1,4 @@
-/* global L:readonly */
+import * as L from 'leaflet';
 import { DEFAULT_ADRESS } from './utils.js';
 import { createCardElement } from './card.js';
 import { setAdressOnMap } from './form.js';
